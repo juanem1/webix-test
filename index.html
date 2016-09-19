@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Datatable: REST</title>
+		<link rel="stylesheet" type="text/css" charset="utf-8" href="webix.css">
+		<link rel="stylesheet" type="text/css" charset="utf-8" href="samples.css">
+		<script src="webix.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="header_comment">Loading and saving with REST calls</div>
+		
+		<!-- Table render -->
+		<div id="testA" style="width:100%"></div>
+		
+		<script type="text/javascript" charset="utf-8">
+
+		var grid = {
+			view:"datatable",	
+			id:"mytable",
+			on:{
+				onBeforeLoad:function() {
+					this.showOverlay("Loading...");
+				},
+				onAfterLoad:function(){
+					this.hideOverlay();
+				}
+			},
+			/*map:{
+				someColumn:"#unique_row_id#"
+			},*/
+			columns:[
+				{ id:"unique_row_id", editor:"text", header:"ID",width:50},
+				{ id:"display_name", editor:"text", header:"Name",width:400},
+				{ id:"status", editor:"text", header:"Status",width:50},
+				{ id:"description", editor:"text", header:"Description",width:400}
+				/*{ id:"someColumn", editor:"text", header:"some Column", width:400}*/
+			],
+			autoheight:true,
+			autowidth:true,
+			select:"row", 
+			editable:true, 
+			datatype:'json', // should be xml
+			editaction:"dblclick",
+			url: "rest->result.json",
+			save: {
+				"insert":"/data_insert/",
+				"update":"/data_update/",
+				"delete":"/data_delete/"
+			}
+		};
+
+		webix.ready(function(){
+			grida = webix.ui({
+				container:"testA",
+				rows:[grid]
+			});
+		});
+		</script>
+	</body>
+</html>
